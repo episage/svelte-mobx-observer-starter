@@ -1,52 +1,31 @@
 <script>
-	import { observable, autorun, reaction } from 'mobx';
-	export let name;
+  import { observable } from "mobx";
+  import Observer from "svelte-mobx-observer";
 
-	let moo = observable({
-		deep: ({
-			nested:{
-				counter: 7,
-			}
-		})
-	})
+  let foo = observable({ // standard, MobX observable
+    deeply: {
+      nested: {
+        counter: 1
+      }
+    }
+  });
 
-	// autorun(()=>{
-	// 	console.log(`autorun moo ${moo.deep.nested.counter}`);
-	// });
+  let counterVisible = true; // works with conditionals as well
 
-	// reaction(()=>{
-	// 	console.log(`reaction moo ${moo.deep.nested.counter}`);
-	// 	return {};
-	// },()=>{
-	// 	console.log(`rerereaction MOO`);
-	// })
-
-	window.moo = moo;
+  window.foo = foo; // you can use the "foo" observable everywhere, it works from window and **nested components** AS WELL
 </script>
 
-<main on:click={()=>moo.deep.nested.counter=4}>
-	<h1>{moo.deep.nested.counter}</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
+<Observer>
+  <main on:click={() => foo.deeply.nested.counter++}>
+	<div on:click={() => counterVisible = !counterVisible}>Counting up... click me to toggle</div>
+	{#if counterVisible}
+		<h1>{foo.deeply.nested.counter}</h1>	
+	{/if}
+  </main>
+</Observer>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+main {
+	cursor: pointer;
+}
 </style>

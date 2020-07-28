@@ -17,7 +17,7 @@
   "dependencies": {
     "mobx": "^5.15.4",
     "sirv-cli": "^0.4.4",
-    "svelte": "file:../../foss/svelte",
-    "sveltecomponent": "file:../svelte-component-template"
+    "svelte": "^3.24.0",
+    "svelte-mobx-observer": "^1.0.1"
   }
 }
